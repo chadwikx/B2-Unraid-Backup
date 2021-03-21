@@ -13,6 +13,8 @@ rclonepw=""
 usb=""
 libvirt=""
 appdata=""
+zipped=""
+
 
 echo
 echo "=================================="
@@ -37,29 +39,30 @@ else
       #Zip backup folders.
       echo "Running backup now..."
       echo "Zipping USB..."
-      zip -r usb.zip $usb/ > /dev/null
+      zip -r $zipped/usb.zip $usb/ > /dev/null
       echo "Done."
       echo "Zipping APPDATA..."
-      zip -r appdata.zip $appdata/ > /dev/null
+      zip -r $zipped/appdata.zip $appdata/ > /dev/null
       echo "Done."
       echo "Zipping LIB..."
-      zip -r libvirt.zip $libvirt/ > /dev/null
+      zip -r $zipped/libvirt.zip $libvirt/ > /dev/null
       echo "Done."
       echo
 
       #Upload files to bucket.
       echo "Uploading zipped files..."
       echo
-      rclone copy --progress --fast-list --password-command "cat $rclonepw" usb.zip $bucket/${now}
+      rclone copy --progress --fast-list --password-command "cat $rclonepw" $zipped/usb.zip $bucket/${now}
       echo
-      rclone copy --progress --fast-list --password-command "cat $rclonepw" appdata.zip $bucket/${now}
+      rclone copy --progress --fast-list --password-command "cat $rclonepw" $zipped/appdata.zip $bucket/${now}
       echo
-      rclone copy --progress --fast-list --password-command "cat $rclonepw" libvirt.zip $bucket/${now}
+      rclone copy --progress --fast-list --password-command "cat $rclonepw" $zipped/libvirt.zip $bucket/${now}
       echo
       echo "Done!"
       echo
       #Remove zipped files.
-      rm usb.zip appdata.zip libvirt.zip
-      rm -r USB/ LIB/ APPDATA/
-      mkdir USB/ APPDATA/ LIB/
+      rm $zipped/usb.zip $zipped/appdata.zip $zipped/libvirt.zip
+      rm -r $usb/ $appdata/ $libvirt/
+      mkdir $usb/ $appdata/ $libvirt/
+
 fi
