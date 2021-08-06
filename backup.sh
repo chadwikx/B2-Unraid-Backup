@@ -14,7 +14,7 @@ usb=""
 libvirt=""
 appdata=""
 zipped=""
-
+archive=""
 
 echo
 echo "=================================="
@@ -49,20 +49,29 @@ else
       echo "Done."
       echo
 
+      #Copy zipped files to archive local archive folder.
+      mkdir $archive/${now}
+      mv $zipped/*.zip $archive/${now} 
+      echo "Files moved to archive folder..."
+
+      #Remove all files older than 30 days
+      echo "Removing all backups older than 30 days..."
+      find $archive/  -mtime +30 -exec rm -r {} \;
+      echo "Done!"
+
       #Upload files to bucket.
-      echo "Uploading zipped files..."
+      echo "Syncing local and remote directories..."
       echo
-      rclone copy --progress --fast-list --password-command "cat $rclonepw" $zipped/usb.zip $bucket/${now}
-      echo
-      rclone copy --progress --fast-list --password-command "cat $rclonepw" $zipped/appdata.zip $bucket/${now}
-      echo
-      rclone copy --progress --fast-list --password-command "cat $rclonepw" $zipped/libvirt.zip $bucket/${now}
+      rclone sync --dry-run --progress --fast-list --password-command "cat $rclonepw" $archive $bucket
       echo
       echo "Done!"
       echo
+
+
+
       #Remove zipped files.
       rm $zipped/usb.zip $zipped/appdata.zip $zipped/libvirt.zip
-      rm -r $usb/ $appdata/ $libvirt/
-      mkdir $usb/ $appdata/ $libvirt/
+      #rm -r $usb/ $appdata/ $libvirt/
+      #mkdir $usb/ $appdata/ $libvirt/
 
 fi
