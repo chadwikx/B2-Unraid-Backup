@@ -70,8 +70,7 @@ else
 
 
       #Remove zipped files.
-      rm $zipped/usb.zip $zipped/appdata.zip $zipped/libvirt.zip
-      #rm -r $usb/ $appdata/ $libvirt/
-      #mkdir $usb/ $appdata/ $libvirt/
+      rm -r $usb/ $appdata/ $libvirt/
+      mkdir $usb/ $appdata/ $libvirt/
 
 fi
