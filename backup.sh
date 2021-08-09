@@ -5,15 +5,19 @@
 
 #Bucket Location (Include full upload path: e.g. b2:backkups/unraid)
 bucket=""
+
 #rclone Config Password File Path
 # Create a text file with just your password in it. This is used to run rclone without interaction.
 rclonepw=""
+
 # Save locations for UNRAID backups.
 # Full Paths | e.g. /mnt/user/data/unraidbackup/usb
 usb=""
 libvirt=""
 appdata=""
 zipped=""
+
+#This is where the program will store 30 days of files, and what rsync clones.
 archive=""
 
 echo
@@ -49,7 +53,7 @@ else
       echo "Done."
       echo
 
-      #Copy zipped files to archive local archive folder.
+      #Move zipped files to archive local archive folder.
       mkdir $archive/${now}
       mv $zipped/*.zip $archive/${now} 
       echo "Files moved to archive folder..."
@@ -67,9 +71,7 @@ else
       echo "Done!"
       echo
 
-
-
-      #Remove zipped files.
+      #Remove unzipped files, recreate directories.
       rm -r $usb/ $appdata/ $libvirt/
       mkdir $usb/ $appdata/ $libvirt/
 
