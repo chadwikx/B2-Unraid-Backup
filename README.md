@@ -2,6 +2,6 @@
 
 This script is meant to be run after "Backup/Restore Appdata" on Unraid. 
 
-Make sure it's installed in the same folder as your USB, LIBVIRT, and APPDATA directories. 
+Zip, Encrypt, Date, and Upload to any B2 storage. 
 
-Zip, Encrypt, Date, and Upload to any B2 storage. Removes local files after run. 
+rclone syncs from local archive which holds 30 days of files before deletion.
